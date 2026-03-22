@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procedimiento PRSGM004 - Diagrama de Flujo</title>
+    <!-- Tailwind CSS para el diseño -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React y Babel para la interactividad -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // Componente de Icono SVG simple para evitar dependencias externas pesadas
+        const Icon = ({ name, className }) => {
+            const icons = {
+                alert: <path d="M12 8v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />,
+                list: <path d="M9 6h11M9 12h11M9 18h11M5 6v.01M5 12v.01M5 18v.01" />,
+                search: <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />,
+                warning: <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />,
+                settings: <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />,
+                check: <path d="M5 13l4 4L19 7" />,
+                history: <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />,
+                chevron: <path d="M9 5l7 7-7 7" />,
+                user: <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m8-10a4 4 0 100-8 4 4 0 000 8z" />
+            };
+
+            return (
+                <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    {icons[name]}
+                </svg>
+            );
+        };
+
+        const App = () => {
+            const [activeStep, setActiveStep] = useState(null);
+
+            const steps = [
+                {
+                    role: 'Analista',
+                    title: 'Detección e Identificación',
+                    icon: 'alert',
+                    iconColor: 'text-red-500',
+                    desc: 'Detectar falla técnica o desviación del protocolo.',
+                    details: [
+                        'Detener el análisis inmediatamente.',
+                        'Segregar muestras afectadas.',
+                        'Informar al Líder de Laboratorio y Gerencia de Calidad.'
+                    ]
+                },
+                {
+                    role: 'Analista / Responsable',
+                    title: 'Registro Inicial',
+                    icon: 'list',
+                    iconColor: 'text-blue-500',
+                    desc: 'Documentar el evento en los formularios oficiales.',
+                    details: [
+                        'Formulario FSGM007 (Reporte).',
+                        'Formulario FSGM006 (Control).'
+                    ]
+                },
+                {
+                    role: 'Líder de Laboratorio',
+                    title: 'Evaluación de Impacto',
+                    icon: 'search',
+                    iconColor: 'text-purple-500',
+                    desc: 'Análisis técnico de la gravedad del error.',
+                    details: [
+                        'Bajo: Errores administrativos (corregir registro).',
+                        'Medio: Falla técnica antes de entrega (repetir ensayo).',
+                        'Alto: Resultados erróneos entregados o fallas sistémicas.'
+                    ]
+                },
+                {
+                    role: 'Líder / Calidad',
+                    title: 'Acciones de Contención',
+                    icon: 'warning',
+                    iconColor: 'text-orange-500',
+                    desc: 'Si el impacto es ALTO, se ejecutan medidas críticas.',
+                    details: [
+                        'Notificación inmediata al cliente interno.',
+                        'Recuperación de informes anteriores.',
+                        'Apertura obligatoria de Acción Correctiva (PRASC015).'
+                    ]
+                },
+                {
+                    role: 'Líder de Laboratorio',
+                    title: 'Disposición y Corrección',
+                    icon: 'settings',
+                    iconColor: 'text-gray-600',
+                    desc: 'Ejecutar acciones para restaurar la confianza técnica.',
+                    details: [
+                        'Invalidación y repetición de ensayos.',
+                        'Etiquetar equipos como "Fuera de Servicio".',
+                        'Verificar que la corrección fue efectiva.'
+                    ]
+                },
+                {
+                    role: 'Líder de Laboratorio',
+                    title: 'Cierre y Autorización',
+                    icon: 'check',
+                    iconColor: 'text-green-500',
+                    desc: 'Finalización formal del registro.',
+                    details: [
+                        'Autorizar reanudación de actividades.',
+                        'Completar FSGM006 y archivar.'
+                    ]
+                },
+                {
+                    role: 'Gerente de Calidad',
+                    title: 'Revisión Mensual',
+                    icon: 'history',
+                    iconColor: 'text-indigo-500',
+                    desc: 'Análisis de tendencias y recurrencia.',
+                    details: [
+                        'Si es recurrente: Iniciar Acción Correctiva sistémica.',
+                        'Asegurar eficacia del procedimiento.'
+                    ]
+                }
+            ];
+
+            return (
+                <div className="min-h-screen p-4 md:p-8">
+                    <div className="max-w-4xl mx-auto">
+                        <header className="bg-white rounded-xl shadow-sm p-6 mb-8 border border-gray-100 flex flex-col md:flex-row justify-between items-center">
+                            <div>
+                                <h1 className="text-2xl font-bold text-gray-800 tracking-tight text-center md:text-left">Manejo de Trabajo No Conforme</h1>
+                                <p className="text-gray-500 text-sm mt-1 text-center md:text-left">Procedimiento PRSGM004 | Santa Teresa</p>
+                            </div>
+                            <div className="mt-4 md:mt-0 flex gap-2">
+                                <span className="px-3 py-1 bg-red-100 text-red-700 text-[10px] font-bold rounded-full uppercase">Calidad</span>
+                                <span className="px-3 py-1 bg-blue-100 text-blue-700 text-[10px] font-bold rounded-full uppercase">Laboratorio</span>
+                            </div>
+                        </header>
+
+                        <div className="space-y-4">
+                            {steps.map((step, index) => (
+                                <div key={index} className="relative">
+                                    {index < steps.length - 1 && (
+                                        <div className="absolute left-10 top-full h-4 w-0.5 bg-gray-300 z-0"></div>
+                                    )}
+                                    
+                                    <div 
+                                        className={`relative z-10 bg-white border ${activeStep === index ? 'border-blue-500 ring-2 ring-blue-50' : 'border-gray-200'} rounded-xl shadow-sm transition-all duration-200 cursor-pointer overflow-hidden`}
+                                        onClick={() => setActiveStep(activeStep === index ? null : index)}
+                                    >
+                                        <div className="p-4 flex items-center gap-4">
+                                            <div className={`w-12 h-12 flex-shrink-0 rounded-lg flex items-center justify-center ${activeStep === index ? 'bg-blue-50' : 'bg-gray-50'}`}>
+                                                <Icon name={step.icon} className={`w-6 h-6 ${step.iconColor}`} />
+                                            </div>
+                                            
+                                            <div className="flex-grow">
+                                                <div className="flex items-center justify-between">
+                                                    <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 flex items-center gap-1">
+                                                        <Icon name="user" className="w-2.5 h-2.5" /> {step.role}
+                                                    </span>
+                                                    <span className="text-xs font-medium text-gray-400">Paso {index + 1}</span>
+                                                </div>
+                                                <h3 className="text-lg font-bold text-gray-800">{step.title}</h3>
+                                                <p className="text-sm text-gray-600 mt-1">{step.desc}</p>
+                                            </div>
+                                            
+                                            <Icon name="chevron" className={`w-5 h-5 transition-transform duration-200 ${activeStep === index ? 'rotate-90 text-blue-500' : 'text-gray-300'}`} />
+                                        </div>
+
+                                        {activeStep === index && (
+                                            <div className="bg-gray-50 px-4 py-4 border-t border-gray-100">
+                                                <h4 className="text-[10px] font-bold text-gray-400 uppercase mb-3">Actividades Específicas:</h4>
+                                                <ul className="space-y-2">
+                                                    {step.details.map((detail, i) => (
+                                                        <li key={i} className="flex items-start gap-3 text-sm text-gray-700">
+                                                            <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0"></div>
+                                                            {detail}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <footer className="mt-12 text-center text-gray-400 text-[10px] flex flex-col items-center gap-2">
+                            <p>Documentos: FSGM006 / FSGM007 | Ref: PRASC015</p>
+                            <p>© 2026 - Gestión de Calidad - Laboratorio Santa Teresa</p>
+                        </footer>
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
